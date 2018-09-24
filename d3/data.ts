@@ -1,6 +1,7 @@
 ///<reference path="d3.d.ts" />
 "use strict";
 
+
 interface IDataSeries {
     desc: string;
     data: IRun[];
@@ -27,7 +28,9 @@ module Chart {
         public iso8601 = d3.time.format('%Y-%m-%d');
         public chartWidth = 800;
         
-        constructor (public element) { }
+        constructor (public element) {
+
+        }
     }
 
     export class Bar extends Base {
@@ -50,7 +53,9 @@ module Chart {
 
             // Create stack layout
             var stackLayout = d3.layout.stack()
-                                .values(function(d) { return d.data })
+                                .values(function(d) { 
+                                    return d.data;
+                                })
                                 .offset(this.layout);
 
             var stackData = stackLayout(data);
@@ -236,7 +241,7 @@ module Chart {
 }
 
 var start = d3.time.day.offset(new Date(), -30);
-var end = new Date()
+var end = new Date();
 var days = d3.time.days(start, end);
 
 var buildData: IRun[] = days.map(day => ({ date: day, pass: Math.random() > 0.1 }));
@@ -250,7 +255,7 @@ function decreasingRandom(start: number, deviation: number, factor: number) {
         var random = d3.random.normal(start, deviation)();
         start = start * factorRandom();
 
-        return parseFloat(random.toFixed())
+        return parseFloat(random.toFixed());
     }
 }
 
@@ -275,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function () {
         { desc: 'Emit', data: emitData },
         { desc: 'Typecheck', data: typecheckData },
         { desc: 'Parse', data: parseData }
-    ]
+    ];
 
     var perfchart = new Chart.Bar(d3.select('#performanceChart'));
     perfchart.render(normalizedData);
